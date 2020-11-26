@@ -27,7 +27,6 @@ Class UploadFolder
 
     public function sendWebhook($message) // sends message to discord
     {
-        if (getWebhookURL() == "") return null;
         $webhook_url = getWebhookURL();
         $options = array(
           'http' => array(
@@ -36,7 +35,8 @@ Class UploadFolder
             'content' => [ 'username' => 'World Uploader', 'content' => $message ],
           )
         );
-        file_get_contents($webhook_url, false, stream_context_create($options));
+        $response = file_get_contents($webhook_url, false, stream_context_create($options));
+        echo $response;
     }
 
     public function set_extensions($extensions) 
