@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minecraft World Uploader</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="gunzip.min.js"></script>
+    <script type="text/javascript" src="nbt.js"></script>
+  </head>
+  <body>
+    <h1>World Uploader</h1>
+
+    <h3>フォルダ(ワールド)を選択してください</h3>
+    <div class="picker"><input type="file" id="picker" name="fileList" webkitdirectory multiple></div>
+
+    <h3>進行度</h3>
+    <span id="box">0%</span>
+    <div id="myProgress">
+        <div id="myBar"></div>
+    </div>
+
+    <h3>アップロードされたファイル</h3>
+    <ul id="listing"></ul>
+    <script src="main.js"></script>
+  </body>
+</html>
