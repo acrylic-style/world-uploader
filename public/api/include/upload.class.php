@@ -56,9 +56,6 @@ Class UploadFolder
 
     public function process($path, $prefix, $files, $root, $last) 
     {
-        // Log string
-        $log_string     = "";
-
         // Original path from user's device
         $original_path  = dirname($path); 
 
@@ -96,23 +93,8 @@ Class UploadFolder
             $log_string .= "ORIGINAL_PATH = ".$original_path."\n";
             $log_string .= "UPLOAD_PATH  = ".$upload_path."\n"; 
             */
-
-            $log_string .=  "Upload to $upload_path\n";
-
             $success = move_uploaded_file($file_tmp, $upload_path);
-            if ($success) {
-                $log_string .= "The file " . basename($file_name) . " has been uploaded\n\n";
-            } else {
-                $log_string .= "The file " . basename($file_name) . " cannot be uploaded\n\n";
-            }
-
-        } else {
-            foreach ($this->errors as $error) {
-                $log_string .= $error . "\n";
-            }
         }
-        
-        file_put_contents($this->log, $log_string, FILE_APPEND );
         $zip = new ZipArchive();
         $zip->open("$upload_dir/$root.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE);
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator("$upload_dir/$root"), RecursiveIteratorIterator::LEAVES_ONLY);
