@@ -113,7 +113,6 @@ picker.addEventListener('change', () => {
   const reader = new FileReader()
   reader.onload = () => {
     const ab = reader.result
-    console.log(ab)
     window.nbt.parse(ab, (error, result) => {
       if (error || !result.value.Data) {
         box.textContent = 'ワールドデータを読み込めません。'
@@ -131,6 +130,7 @@ picker.addEventListener('change', () => {
         return
       }
       // do upload
+      console.log(`path: ${kikaku.value}, root: ${root}`)
       for (let i = 0; i < picker.files.length; i++) {
         const file = picker.files[i]
         sendFile(file, kikaku.value, file.webkitRelativePath, root, i == (picker.files.length - 1))

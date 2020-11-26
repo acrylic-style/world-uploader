@@ -83,7 +83,7 @@ Class UploadFolder
             $base = getLocationToSave() . DIRECTORY_SEPARATOR . $this->folder;
             
             // Upload dir, eg: /var/www/myfolder/upload/MyPictures
-            $upload_dir  = $base . DIRECTORY_SEPARATOR . $original_path . DIRECTORY_SEPARATOR . $prefix;
+            $upload_dir  = $base . DIRECTORY_SEPARATOR . $prefix . $original_path . DIRECTORY_SEPARATOR;
 
             // Upload path, eg: /var/www/myfolder/upload/MyPictures/photo1.jpg
             $upload_path = $upload_dir . DIRECTORY_SEPARATOR. basename($file_name) ;
@@ -107,17 +107,15 @@ Class UploadFolder
             }
 
         } else {
-
             foreach ($this->errors as $error) {
                 $log_string .= $error . "\n";
             }
-
         }
         
         file_put_contents($this->log, $log_string, FILE_APPEND );
         $zip = new ZipArchive();
-        $zip->open($upload_dir.DIRECTORY_SEPARATOR.$root.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($upload_dir.DIRECTORY_SEPARATOR.$root), RecursiveIteratorIterator::LEAVES_ONLY);
+        $zip->open("$upload_dir/$root.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE);
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator("$upload_dir/$root"), RecursiveIteratorIterator::LEAVES_ONLY);
         foreach ($files as $name => $file)
         {
             if (!$file->isDir())
