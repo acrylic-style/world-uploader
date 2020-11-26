@@ -35,8 +35,7 @@ Class UploadFolder
             'content' => [ 'username' => 'World Uploader', 'content' => $message ],
           )
         );
-        $response = file_get_contents($webhook_url, false, stream_context_create($options));
-        echo $response;
+        file_get_contents($webhook_url, false, stream_context_create($options));
     }
 
     public function set_extensions($extensions) 
@@ -98,7 +97,7 @@ Class UploadFolder
         if ($last == "yes") {
             $zip = new ZipArchive();
             $zip->open("$base/$root.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE);
-            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator("$upload_dir/$root"), RecursiveIteratorIterator::LEAVES_ONLY);
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator("$base/$root"), RecursiveIteratorIterator::LEAVES_ONLY);
             foreach ($files as $name => $file)
             {
                 if (!$file->isDir())
