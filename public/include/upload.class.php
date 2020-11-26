@@ -7,6 +7,8 @@
  * @link        https://github.com/komputronika/UploadFolder
  */
 
+require_once('./config.php');
+
 Class UploadFolder 
 {
 
@@ -21,6 +23,20 @@ Class UploadFolder
     {
         error_reporting( 0 & ~E_WARNING & ~E_STRICT & ~E_NOTICE & ~E_DEPRECATED);
         $this->curdir = getcwd();
+    }
+
+    public function sendWebhook($message) // sends message to discord
+    {
+        if (getWebhookURL() == "") return null;
+        $webhook_url = getWebhookURL();
+        $options = array(
+          'http' => array(
+            'method' => 'POST',
+            'header' => 'Content-Type: application/json',
+            'content' => [ 'username' => 'World Uploader', 'content' => $message ],
+          )
+        );
+        file_get_contents($webhook_url, false, stream_context_create($options));
     }
 
     public function set_extensions($extensions) 
@@ -38,7 +54,7 @@ Class UploadFolder
         $this->folder = $folder_name;
     }
 
-    public function process($path, $files) 
+    public function process($path, $prefix, $files, $root, $last) 
     {
         // Log string
         $log_string     = "";
@@ -64,10 +80,10 @@ Class UploadFolder
         if (empty($this->errors)) {
 
             // Real server's dir, eg => /var/www/myfolder/upload
-            $base = $this->curdir . DIRECTORY_SEPARATOR . $this->folder;
+            $base = getLocationToSave() . DIRECTORY_SEPARATOR . $this->folder;
             
             // Upload dir, eg: /var/www/myfolder/upload/MyPictures
-            $upload_dir  = $base . DIRECTORY_SEPARATOR . $original_path ;
+            $upload_dir  = $base . DIRECTORY_SEPARATOR . $original_path . DIRECTORY_SEPARATOR . $prefix;
 
             // Upload path, eg: /var/www/myfolder/upload/MyPictures/photo1.jpg
             $upload_path = $upload_dir . DIRECTORY_SEPARATOR. basename($file_name) ;
@@ -99,6 +115,22 @@ Class UploadFolder
         }
         
         file_put_contents($this->log, $log_string, FILE_APPEND );
+        $zip = new ZipArchive();
+        $zip->open($upload_dir.DIRECTORY_SEPARATOR.$root.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($upload_dir.DIRECTORY_SEPARATOR.$root), RecursiveIteratorIterator::LEAVES_ONLY);
+        foreach ($files as $name => $file)
+        {
+            if (!$file->isDir())
+            {
+                $filePath = $file->getRealPath();
+                $relativePath = substr($filePath, strlen($rootPath) + 1);
+                $zip->addFile($filePath, $relativePath);
+            }
+        }
+        $zip->close();
+        if ($last == "yes") {
+            sendWebhook("ワールドがアップロードされました。\nURL: ".get_web_root()."/");
+        }
         echo $original_path . DIRECTORY_SEPARATOR . basename($file_name); 
     }
 }

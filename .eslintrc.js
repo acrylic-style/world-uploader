@@ -23,10 +23,6 @@ module.exports = {
     'eol-last': 2,
     'no-useless-return': 2,
     'valid-typeof': 0,
-    'no-restricted-syntax': [2, {
-      selector: 'TryStatement',
-      message: 'try...catch statement is not allowed',
-    }],
     'no-control-regex': 0,
     'no-useless-escape': 0,
   }
