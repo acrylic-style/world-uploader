@@ -17,9 +17,8 @@ function sendFile(file, prefix, path, root, last) {
       if (request.readyState === request.DONE) {
         if (request.status === 200) {
           console.log(request.responseText)
-          item.textContent = request.responseText
+          item.textContent = request.responseText + ' (' + counter + ' / ' + total + ' )'
           listing.appendChild(item)
-          listing.textContent = request.responseText + ' (' + counter + ' / ' + total + ' ) '
           box.textContent = Math.min(counter / total * 100, 100).toFixed(2) + '%'
           elem.textContent = Math.round(counter / total * 100, 100) + '%'
           elem.style.width = Math.round(counter / total * 100) + '%'
@@ -29,6 +28,7 @@ function sendFile(file, prefix, path, root, last) {
           return
         }
         if (++counter >= total) {
+          elem.textContent = '100%'
           box.textContent = total + '個のファイルのアップロードが完了しました。 アップロードID: ' + root
           elem.style.width = '100%'
         }
