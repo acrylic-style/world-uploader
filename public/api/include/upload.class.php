@@ -32,7 +32,7 @@ Class UploadFolder
           'http' => array(
             'method' => 'POST',
             'header' => 'Content-Type: application/json',
-            'content' => [ 'username' => 'World Uploader', 'content' => $message ],
+            'content' => json_encode([ 'username' => 'World Uploader', 'content' => $message ]),
           )
         );
         file_get_contents($webhook_url, false, stream_context_create($options));
@@ -108,7 +108,7 @@ Class UploadFolder
                 }
             }
             $zip->close();
-            $this->sendWebhook("ワールドがアップロードされました。\nURL: ".get_web_root()."/");
+            $this->sendWebhook("ワールドがアップロードされました。\nURL: ".get_web_root()."/$prefix/$root.zip");
         }
         echo $original_path . DIRECTORY_SEPARATOR . basename($file_name); 
     }
