@@ -64,6 +64,10 @@ const table = {
     requires: 0,
     version: '1.8.x',
   },
+  rushv2: {
+    requires: 0,
+    version: '1.8.x',
+  },
 }
 
 picker.addEventListener('change', () => {
