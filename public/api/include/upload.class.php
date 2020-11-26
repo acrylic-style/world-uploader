@@ -7,7 +7,7 @@
  * @link        https://github.com/komputronika/UploadFolder
  */
 
-require_once('./config.php');
+require_once(__DIR__.'/config.php');
 
 Class UploadFolder 
 {
