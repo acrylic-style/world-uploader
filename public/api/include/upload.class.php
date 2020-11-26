@@ -77,10 +77,10 @@ Class UploadFolder
         if (empty($this->errors)) {
 
             // Real server's dir, eg => /var/www/myfolder/upload
-            $base = getLocationToSave() . DIRECTORY_SEPARATOR . $this->folder;
+            $base = getLocationToSave() . DIRECTORY_SEPARATOR . $this->folder . DIRECTORY_SEPARATOR . $prefix;
             
             // Upload dir, eg: /var/www/myfolder/upload/MyPictures
-            $upload_dir  = $base . DIRECTORY_SEPARATOR . $prefix . DIRECTORY_SEPARATOR . $original_path . DIRECTORY_SEPARATOR;
+            $upload_dir  = $base . DIRECTORY_SEPARATOR . $original_path . DIRECTORY_SEPARATOR;
 
             // Upload path, eg: /var/www/myfolder/upload/MyPictures/photo1.jpg
             $upload_path = $upload_dir . DIRECTORY_SEPARATOR. basename($file_name) ;
@@ -95,20 +95,20 @@ Class UploadFolder
             */
             $success = move_uploaded_file($file_tmp, $upload_path);
         }
-        $zip = new ZipArchive();
-        $zip->open("$upload_dir/$root.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE);
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator("$upload_dir/$root"), RecursiveIteratorIterator::LEAVES_ONLY);
-        foreach ($files as $name => $file)
-        {
-            if (!$file->isDir())
-            {
-                $filePath = $file->getRealPath();
-                $relativePath = substr($filePath, strlen($rootPath) + 1);
-                $zip->addFile($filePath, $relativePath);
-            }
-        }
-        $zip->close();
         if ($last == "yes") {
+            $zip = new ZipArchive();
+            $zip->open("$base/$root.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE);
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator("$upload_dir/$root"), RecursiveIteratorIterator::LEAVES_ONLY);
+            foreach ($files as $name => $file)
+            {
+                if (!$file->isDir())
+                {
+                    $filePath = $file->getRealPath();
+                    $relativePath = substr($filePath, strlen($rootPath) + 1);
+                    $zip->addFile($filePath, $relativePath);
+                }
+            }
+            $zip->close();
             sendWebhook("ワールドがアップロードされました。\nURL: ".get_web_root()."/");
         }
         echo $original_path . DIRECTORY_SEPARATOR . basename($file_name); 
