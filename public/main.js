@@ -172,14 +172,17 @@ picker.addEventListener('change', () => {
   reader.readAsArrayBuffer(leveldat)
 })
 
-document.getElementById('kikaku').childNodes.forEach(node => node.onclick = () => {
-  selected = true
-})
-
-discord.oninput = () => {
+const check = () => {
   if (selected && /^.*#\d{4}$/.test(discord.value)) {
     document.getElementById('picker').disabled = false
   } else {
     document.getElementById('picker').disabled = true
   }
 }
+
+document.getElementById('kikaku').childNodes.forEach(node => node.onclick = () => {
+  selected = true
+  check()
+})
+
+discord.oninput = () => { check() }
