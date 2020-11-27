@@ -2,12 +2,15 @@ const picker = document.getElementById('picker')
 const listing = document.getElementById('listing')
 const box = document.getElementById('box')
 const elem = document.getElementById('myBar')
+const discord = document.getElementById('discord')
 let counter = 1
 let total = 0
 let paused = false
+let selected = false
 
 function sendFile(file, prefix, path, root, last) {
   if (paused) return
+  if (!selected || !/^.*#\d{4}$/.test(discord.value)) throw new Error('Condition is not met yet.')
   const item = document.createElement('li')
   const formData = new FormData()
   const request = new XMLHttpRequest()
@@ -44,6 +47,7 @@ function sendFile(file, prefix, path, root, last) {
   formData.set('path', path)
   formData.set('last', last ? 'yes' : 'no')
   formData.set('root', root)
+  formData.set('discord', discord.value)
   request.open('POST', 'api/process.php')
   request.send(formData)
 }
@@ -169,5 +173,13 @@ picker.addEventListener('change', () => {
 })
 
 document.getElementById('kikaku').childNodes.forEach(node => node.onclick = () => {
-  document.getElementById('picker').disabled = false
+  selected = true
 })
+
+discord.oninput = () => {
+  if (selected && /^.*#\d{4}$/.test(discord.value)) {
+    document.getElementById('picker').disabled = false
+  } else {
+    document.getElementById('picker').disabled = true
+  }
+}

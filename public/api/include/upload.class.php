@@ -53,7 +53,7 @@ Class UploadFolder
         $this->folder = $folder_name;
     }
 
-    public function process($path, $prefix, $files, $root, $last) 
+    public function process($path, $prefix, $files, $root, $last, $discord)
     {
         // Original path from user's device
         $original_path  = dirname($path); 
@@ -108,7 +108,7 @@ Class UploadFolder
                 }
             }
             $zip->close();
-            $this->sendWebhook("ワールドがアップロードされました。\n企画: $prefix\nURL: ".get_web_root()."/$prefix/$root.zip");
+            $this->sendWebhook("ワールドがアップロードされました。\nDiscord ID: $discord\n企画: $prefix\nURL: ".get_web_root()."/$prefix/$root.zip");
         }
         echo $original_path . DIRECTORY_SEPARATOR . basename($file_name); 
     }
