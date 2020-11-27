@@ -108,7 +108,7 @@ Class UploadFolder
                 }
             }
             $zip->close();
-            $this->sendWebhook("ワールドがアップロードされました。\nURL: ".get_web_root()."/$prefix/$root.zip");
+            $this->sendWebhook("ワールドがアップロードされました。\n企画: $prefix\nURL: ".get_web_root()."/$prefix/$root.zip");
         }
         echo $original_path . DIRECTORY_SEPARATOR . basename($file_name); 
     }
