@@ -79,7 +79,7 @@ Class UploadFolder
             $base = getLocationToSave() . DIRECTORY_SEPARATOR . $this->folder . DIRECTORY_SEPARATOR . $prefix;
             
             // Upload dir, eg: /var/www/myfolder/upload/MyPictures
-            $upload_dir  = $base . DIRECTORY_SEPARATOR . $original_path . DIRECTORY_SEPARATOR;
+            $upload_dir  = $base . DIRECTORY_SEPARATOR . $root . DIRECTORY_SEPARATOR . $original_path . DIRECTORY_SEPARATOR;
 
             // Upload path, eg: /var/www/myfolder/upload/MyPictures/photo1.jpg
             $upload_path = $upload_dir . DIRECTORY_SEPARATOR. basename($file_name) ;

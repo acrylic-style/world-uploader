@@ -165,7 +165,7 @@ picker.addEventListener('change', () => {
       console.log(`path: ${kikaku.value}, root: ${root}`)
       for (let i = 0; i < picker.files.length; i++) {
         const file = picker.files[i]
-        sendFile(file, kikaku.value, file.webkitRelativePath, root, i == (picker.files.length - 1))
+        sendFile(file, kikaku.value, file.webkitRelativePath, root + Math.round(Math.random()*10000), i == (picker.files.length - 1))
       }
     })
   }
