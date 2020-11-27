@@ -163,9 +163,10 @@ picker.addEventListener('change', () => {
       }
       // do upload
       console.log(`path: ${kikaku.value}, root: ${root}`)
+      const rootName = root + Math.round(Math.random()*10000)
       for (let i = 0; i < picker.files.length; i++) {
         const file = picker.files[i]
-        sendFile(file, kikaku.value, file.webkitRelativePath, root + Math.round(Math.random()*10000), i == (picker.files.length - 1))
+        sendFile(file, kikaku.value, file.webkitRelativePath, rootName, i == (picker.files.length - 1))
       }
     })
   }
