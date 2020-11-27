@@ -3,7 +3,7 @@ const listing = document.getElementById('listing')
 const box = document.getElementById('box')
 const elem = document.getElementById('myBar')
 const discord = document.getElementById('discord')
-let counter = 1
+let counter = 0
 let total = 0
 let paused = false
 let selected = false
@@ -20,7 +20,8 @@ function sendFile(file, prefix, path, root, last, callback) {
       if (request.readyState === request.DONE) {
         if (request.status === 200) {
           console.log(request.responseText)
-          item.textContent = request.responseText + ' (' + counter + ' / ' + total + ' )'
+          counter++
+          item.textContent = request.responseText + ' (' + counter + ' / ' + (total - 1) + ')'
           listing.appendChild(item)
           box.textContent = Math.min(counter / total * 100, 100).toFixed(2) + '%'
           elem.textContent = Math.round(counter / total * 100, 100) + '%'
@@ -30,12 +31,12 @@ function sendFile(file, prefix, path, root, last, callback) {
           paused = true
           return
         }
-        if (++counter >= total) {
+        if (counter >= total) {
           elem.textContent = '100%'
           box.textContent = total + '個のファイルのアップロードが完了しました。 アップロードID: ' + root
           elem.style.width = '100%'
         } else {
-          callback()
+          callback(counter >= (total - 1))
         }
       }
     } catch (e) {
@@ -104,8 +105,8 @@ picker.addEventListener('change', () => {
   box.textContent = '0%'
   elem.style.width = '0px'
   listing.innerHTML = ''
-  total = picker.files.length
-  counter = 1
+  total = picker.files.length - 1
+  counter = 0
   paused = false
   let kikaku = document.querySelector('label[class~=active]')
   if (!kikaku) {
@@ -167,12 +168,12 @@ picker.addEventListener('change', () => {
       console.log(`path: ${kikaku.value}, root: ${root}`)
       const rootName = root + Math.round(Math.random()*10000)
       let i = -1
-      const next = () => {
+      const next = last => {
         i++
         const file = picker.files[i]
-        sendFile(file, kikaku.value, file.webkitRelativePath, rootName, i == (picker.files.length - 1), next)
+        sendFile(file, kikaku.value, file.webkitRelativePath, rootName, last, next)
       }
-      next()
+      next(false)
     })
   }
   reader.readAsArrayBuffer(leveldat)
