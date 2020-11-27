@@ -21,7 +21,7 @@ function sendFile(file, prefix, path, root, last, callback) {
         if (request.status === 200) {
           console.log(request.responseText)
           counter++
-          item.textContent = request.responseText + ' (' + counter + ' / ' + (total - 1) + ')'
+          item.textContent = request.responseText + ' (' + counter + ' / ' + total + ')'
           listing.appendChild(item)
           box.textContent = Math.min(counter / total * 100, 100).toFixed(2) + '%'
           elem.textContent = Math.round(counter / total * 100, 100) + '%'
@@ -105,7 +105,7 @@ picker.addEventListener('change', () => {
   box.textContent = '0%'
   elem.style.width = '0px'
   listing.innerHTML = ''
-  total = picker.files.length - 1
+  total = picker.files.length
   counter = 0
   paused = false
   let kikaku = document.querySelector('label[class~=active]')
@@ -165,7 +165,6 @@ picker.addEventListener('change', () => {
         return
       }
       // do upload
-      console.log(`path: ${kikaku.value}, root: ${root}`)
       const rootName = root + Math.round(Math.random()*10000)
       let i = -1
       const next = last => {

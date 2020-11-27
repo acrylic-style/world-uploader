@@ -103,7 +103,7 @@ Class UploadFolder
                 if (!$file->isDir())
                 {
                     $filePath = $file->getRealPath();
-                    $relativePath = substr($filePath, strlen($base) + 1);
+                    $relativePath = substr($filePath, strlen("$base/$root") + 1);
                     $zip->addFile($filePath, $relativePath);
                 }
             }
