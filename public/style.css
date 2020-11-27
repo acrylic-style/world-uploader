@@ -69,3 +69,7 @@ code {
   font-weight: bold;
   border-radius: 5px;
 }
+
+.btn {
+  margin-top: 5px;
+}
