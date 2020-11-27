@@ -8,7 +8,7 @@ let total = 0
 let paused = false
 let selected = false
 
-function sendFile(file, prefix, path, root, last) {
+function sendFile(file, prefix, path, root, last, callback) {
   if (paused) return
   if (!selected || !/^.*#\d{4}$/.test(discord.value)) throw new Error('Condition is not met yet.')
   const item = document.createElement('li')
@@ -34,6 +34,8 @@ function sendFile(file, prefix, path, root, last) {
           elem.textContent = '100%'
           box.textContent = total + '個のファイルのアップロードが完了しました。 アップロードID: ' + root
           elem.style.width = '100%'
+        } else {
+          callback()
         }
       }
     } catch (e) {
@@ -164,10 +166,13 @@ picker.addEventListener('change', () => {
       // do upload
       console.log(`path: ${kikaku.value}, root: ${root}`)
       const rootName = root + Math.round(Math.random()*10000)
-      for (let i = 0; i < picker.files.length; i++) {
+      let i = -1
+      const next = () => {
+        i++
         const file = picker.files[i]
-        sendFile(file, kikaku.value, file.webkitRelativePath, rootName, i == (picker.files.length - 1))
+        sendFile(file, kikaku.value, file.webkitRelativePath, rootName, i == (picker.files.length - 1), next)
       }
+      next()
     })
   }
   reader.readAsArrayBuffer(leveldat)
