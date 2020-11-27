@@ -3,6 +3,7 @@ const listing = document.getElementById('listing')
 const box = document.getElementById('box')
 const elem = document.getElementById('myBar')
 const discord = document.getElementById('discord')
+const description = document.getElementById('description')
 let counter = 0
 let total = 0
 let paused = false
@@ -51,6 +52,7 @@ function sendFile(file, prefix, path, root, last, callback) {
   formData.set('last', last ? 'yes' : 'no')
   formData.set('root', root)
   formData.set('discord', discord.value)
+  formData.set('description', description.value)
   request.open('POST', 'api/process.php')
   request.send(formData)
 }
