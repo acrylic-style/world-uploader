@@ -52,9 +52,33 @@ function sendFile(file, prefix, path, root, last) {
  * @type {{[name: string]: { requires: Number, version: string }}}
  */
 const table = {
+  tosogame: {
+    requires: 1343,
+    version: '1.12.2',
+  },
   witherescape: {
     requires: 922,
     version: '1.11.2',
+  },
+  splatoon: {
+    requires: 922,
+    version: '1.11.2',
+  },
+  villagerdefence: {
+    requires: 922,
+    version: '1.11.2',
+  },
+  gundomination: {
+    requires: 922,
+    version: '1.11.2',
+  },
+  ctf: {
+    requires: 0,
+    version: '1.8.x',
+  },
+  kartrace: {
+    requires: 0,
+    version: '1.8.x',
   },
   cbp: {
     requires: 0,
