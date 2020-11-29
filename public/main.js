@@ -181,6 +181,20 @@ picker.addEventListener('change', () => {
 })
 
 const check = () => {
+  setTimeout(() => {
+    let kikaku = document.querySelector('label[class~=active]')
+    if (!kikaku) {
+      box.textContent = '企画が選択されていません。'
+      return
+    }
+    if (kikaku.classList.contains('btn')) kikaku = kikaku.firstChild
+    if (!table[kikaku.value]) {
+      box.textContent = '企画が選択されていません。'
+      return
+    }
+    const data = table[kikaku.value]
+    document.getElementById('version').textContent = data.version
+  }, 100)
   if (selected && /^.*#\d{4}$/.test(discord.value)) {
     document.getElementById('picker').disabled = false
   } else {
