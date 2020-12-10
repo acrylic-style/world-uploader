@@ -110,6 +110,10 @@ picker.addEventListener('change', () => {
   total = picker.files.length
   counter = 0
   paused = false
+  if (picker.files.length === 0) {
+    box.textContent = 'ワールドが選択されていません。'
+    return
+  }
   let kikaku = document.querySelector('label[class~=active]')
   if (!kikaku) {
     box.textContent = '企画が選択されていません。'
