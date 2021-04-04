@@ -61,45 +61,9 @@ function sendFile(file, prefix, path, root, last, callback) {
  * @type {{[name: string]: { requires: Number, version: string }}}
  */
 const table = {
-  tosogame: {
+  a: {
     requires: 1343,
     version: '1.12.2',
-  },
-  witherescape: {
-    requires: 922,
-    version: '1.11.2',
-  },
-  splatoon: {
-    requires: 922,
-    version: '1.11.2',
-  },
-  villagerdefence: {
-    requires: 922,
-    version: '1.11.2',
-  },
-  gundomination: {
-    requires: 922,
-    version: '1.11.2',
-  },
-  ctf: {
-    requires: 0,
-    version: '1.8.x',
-  },
-  kartrace: {
-    requires: 0,
-    version: '1.8.x',
-  },
-  cbp: {
-    requires: 0,
-    version: '1.8.x',
-  },
-  castlesiege: {
-    requires: 0,
-    version: '1.8.x',
-  },
-  rushv2: {
-    requires: 0,
-    version: '1.8.x',
   },
 }
 
@@ -116,12 +80,12 @@ picker.addEventListener('change', () => {
   }
   let kikaku = document.querySelector('label[class~=active]')
   if (!kikaku) {
-    box.textContent = '企画が選択されていません。'
+    box.textContent = '種類が選択されていません。'
     return
   }
   if (kikaku.classList.contains('btn')) kikaku = kikaku.firstChild
   if (!table[kikaku.value]) {
-    box.textContent = '企画が選択されていません。'
+    box.textContent = '種類が選択されていません。'
     return
   }
   const data = table[kikaku.value]
@@ -139,7 +103,7 @@ picker.addEventListener('change', () => {
     const isRoot = file.webkitRelativePath.match(/\//g).length == 1
     if (isRoot && file.name === 'level.dat') leveldat = file
     if (file.name.endsWith('.mca')) mca = true
-    if (file.name.endsWith('.php') || file.name.endsWith('.gif')) invalid = true
+    if (file.name.endsWith('.php') || file.name.endsWith('.gif') || file.name.endsWith('.html')) invalid = true
     bytes += file.size
   }
   if (!leveldat || !mca || invalid) {
@@ -188,12 +152,12 @@ const check = () => {
   setTimeout(() => {
     let kikaku = document.querySelector('label[class~=active]')
     if (!kikaku) {
-      box.textContent = '企画が選択されていません。'
+      box.textContent = '種類が選択されていません。'
       return
     }
     if (kikaku.classList.contains('btn')) kikaku = kikaku.firstChild
     if (!table[kikaku.value]) {
-      box.textContent = '企画が選択されていません。'
+      box.textContent = '種類が選択されていません。'
       return
     }
     const data = table[kikaku.value]
